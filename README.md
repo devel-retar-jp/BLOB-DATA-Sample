@@ -11,8 +11,9 @@ BLOBデータを扱うためのC++の基本コード<br>
   char,std::vector<BYTE>の扱い方のベース<p>
 
 <H2>開発環境</H2>
-* Windows10 Pro
-* Visual Studio 2019
-* C++
+
+ * Windows10 Pro
+ * Visual Studio 2019
+ * C++
 
 First : 2021/07/26
