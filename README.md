@@ -1,4 +1,4 @@
-# BLOB-_DATA_Sample
+# BLOB DATA Sample
 C++開発のサンプルコード
 
 BLOBデータを扱うためのC++の基本コード<br>
