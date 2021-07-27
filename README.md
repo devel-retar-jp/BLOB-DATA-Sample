@@ -1,8 +1,6 @@
-# BLOB DATA Sample
-C++開発のサンプルコード
-
-BLOBデータを扱うためのC++の基本コード<br>
-基本的なデータ型の扱い。
+# WindowsでTPM2.0を扱うサンプルコード
+WIN32 APIからTPM2.0のハードウェア、CPU内の機能を使ってみる。<br>
+③からがTPM2.0の機能検証です。
 
  * ①BLOB_Access<p>
   初めにデータ型に慣れる<p>
