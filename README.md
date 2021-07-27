@@ -9,6 +9,14 @@ BLOBデータを扱うためのC++の基本コード<br>
   
  * ②TCHAR_char<p>
   char,std::vector<BYTE>の扱い方のベース<p>
+  
+ * ③TPM_Base_Services<p>
+  tpm.hライブラリの使い方<br>
+  残念ならが、Windows10ではTPM2.0のハードウェアに<br>
+  生のBLOBデータを送信できないテスト<br>
+  Windows8以降は、高級関数で扱います。<p>
+
+  生TPM2.0を体験したいなら、Linuxのデバイスドライバがあります。
 
 <H2>開発環境</H2>
 
