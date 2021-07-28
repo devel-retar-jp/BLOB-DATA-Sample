@@ -15,6 +15,11 @@ WIN32 APIからTPM2.0のハードウェア、CPU内の機能を使ってみる�
   Windows8以降は、高級関数で扱います。<p>
   生TPM2.0を体験したいなら、Linuxのデバイスドライバがあります。
 
+ * ④Random<p>
+  BCryptを使って乱数生成<br>
+  TPM2.0を使って生成しています。<br>
+  本気で使うならstd::random、CUDAの乱数などを併せて評価を！
+
 <H2>開発環境</H2>
 
  * Windows10 Pro
