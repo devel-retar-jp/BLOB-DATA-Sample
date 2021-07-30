@@ -19,6 +19,11 @@ WIN32 APIからTPM2.0のハードウェア、CPU内の機能を使ってみる�
   BCryptを使って乱数生成<br>
   TPM2.0を使って生成しています。<br>
   本気で使うならstd::random、CUDAの乱数などを併せて評価を！
+ 
+ * ⑤Hash関数<p>
+  TPM2.0の機能を使ったHASHをWIN32 APIでは出来ません。<BR>
+  BCrypt関数とCrypt関数でHASHできますが、BCryptを使いましょう。<br>
+  Crypt関数は廃止されるそうです。
 
 <H2>開発環境</H2>
 
