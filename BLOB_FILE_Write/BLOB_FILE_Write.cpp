@@ -1,15 +1,15 @@
 ﻿/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// 
-/// バイナリデータのオープン・クローズ①
+/// バイナリデータのオープン・クローズ②
 ///
 /// Summary:
-/// バイナリファイルの読み込み
+/// バイナリファイルの書き込み
 /// 
 /// 昔式の書き方をすると冗長になり、読み辛いです。
 /// C++11/17の書き方をしましょう！
 /// 
 /// 
-/// 2021/08/02      Retar.jp
+/// 2021/08/03      Retar.jp
 /// 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@
 #include <iomanip>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define DirSep  L"\\"															//ディレクトリの区切り文字列
-///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void binStdOut(LPBYTE outstring, unsigned long outlength, std::string banner);	//出力
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main()
@@ -29,6 +29,9 @@ int main()
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	std::wstring InFileName = L"InText.txt";									//テスト入力ファイル名・UNICODE指定		->	適時書き換えを！
 	//std::wstring InFileName = L"cryptbin.dat";									//テスト入力ファイル名・UNICODE指定		->	適時書き換えを！
+	std::wstring OutFileNameWin32 = L"SaveWin32.txt";							//テスト出力ファイル名・UNICODE指定		->	適時書き換えを！
+	std::wstring OutFileNameofstream = L"Saveofstream.txt";						//テスト出力ファイル名・UNICODE指定		->	適時書き換えを！
+	std::wstring OutFileNamePofstream = L"SavePofstream.txt";					//テスト出力ファイル名・UNICODE指定		->	適時書き換えを！
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//UNICODE・カレント実行パスを取得
 	//WindowsのUNICODEで文字列を加工する時は何でも「std::wstring」に持ち込む
@@ -39,6 +42,7 @@ int main()
 	//
 	std::wstring::size_type pos = std::wstring(dir).find_last_of(DirSep);		//最後の"\"の位置をposに取得
 	std::wstring currentDirString = std::wstring(dir).substr(0, pos);			//currentDirStringに文字を取得
+	std::wstring currentDirStringSV = currentDirString;							//保存
 	std::wcout << "Current Dir String: " << currentDirString << std::endl;
 
 	currentDirString += DirSep;													//文字列連結
@@ -48,89 +52,83 @@ int main()
 	LPWSTR pcurrentDirString = &currentDirString[0];							//std::wstring -> LPWSTR
 	std::wcout << "Current Dir CONN  : " << pcurrentDirString << std::endl;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//バイナリデータ読み込み・昔の書き方は冗長
-	HANDLE          hFile, hFileBegin;											//ファイルハンドラ
-	DWORD           InDataSize = 0;												//読み込みデータサイズ
-	///	LPBYTE形式
-	LPBYTE          InData;														//読み込みBuffer
-	BOOL			readstat;													//読み込みステータス
-	/////////
-	//ファイル読み込み
-	hFile = CreateFileW(
-		(LPCWSTR)pcurrentDirString												//DIRをUNICODE指定する
-		, GENERIC_READ
-		, 0
+	// std::vector<BYTE>に読み込む・イキナリ読み込み・その2
+	std::basic_ifstream<BYTE> file2(pcurrentDirString, std::ios::binary);		//ファイルオープン
+	// basic_ifstreamのイテレータがあるので読んでやる
+	auto ifsInDataBYTE = std::vector<BYTE>((std::istreambuf_iterator<BYTE>(file2)), std::istreambuf_iterator<BYTE>());
+	//出力関数・std::vector<BYTE> -> LPBYTEに変換・関数呼び出しでは多用・関数によっては上手くいかない？ので、HeapAllocする。
+	LPBYTE lpifsInDataBYTE = (LPBYTE)&ifsInDataBYTE[0];
+	binStdOut(lpifsInDataBYTE, (unsigned long)ifsInDataBYTE.size(), "ORIGINAL IN FILE :");
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//入力データをビット演算する
+	std::vector<BYTE> ifsInDataBYTEConv;
+	for (unsigned long i = 0; i < (unsigned long)ifsInDataBYTE.size(); i++)
+	{
+		auto s = ifsInDataBYTE[i];
+		//s = s >> 1;															//ビットシフト
+		s = s + 32;																//大文字ー＞小文字サンプル
+		ifsInDataBYTEConv.push_back(s);
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//CreateFile WIN32 API
+	HANDLE hFile;
+	currentDirString = currentDirStringSV;										//文字列連結
+	currentDirString += DirSep;													//文字列連結
+	currentDirString += OutFileNameWin32;										//文字列連結
+	pcurrentDirString = &currentDirString[0];									//UNICODE文字列Dir
+	//https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-writefile
+	hFile = CreateFile(														
+		(LPWSTR) pcurrentDirString
+		, GENERIC_WRITE
+		, FILE_SHARE_WRITE
 		, NULL
-		, OPEN_EXISTING
+		, CREATE_ALWAYS
 		, FILE_ATTRIBUTE_NORMAL
 		, NULL
 	);
-	//読み込めなかったときの処理
-	if (hFile == INVALID_HANDLE_VALUE)
+	//書き出し
+	if (hFile != INVALID_HANDLE_VALUE) 
+	{
+		LPBYTE lpifsInDataBYTEConv = (LPBYTE)&ifsInDataBYTEConv[0];
+		WriteFile(
+			hFile
+			, lpifsInDataBYTEConv
+			, (DWORD)ifsInDataBYTEConv.size()
+			, NULL
+			, NULL
+		);
+		//出力関数・std::vector<BYTE> -> LPBYTEに変換・関数呼び出しでは多用・関数によっては上手くいかない？ので、HeapAllocする。
+		binStdOut(lpifsInDataBYTEConv, (unsigned long)ifsInDataBYTEConv.size(), "CONVERT FILE :");
+	}
+	else
 	{
 		std::cout << "*** Error returned by CreateFile\n";
 		std::wcout << pcurrentDirString << "\n";
 		return 1;
 	}
-	else
-	{
-		printf("CreateFileW : Open OK\n");
-		hFileBegin = hFile;
-	}
-	/////////
-	//読み込みバイト数
-	InDataSize = GetFileSize(hFile, NULL);
-	/////////
-	//LPBYTE形式に読み込み・伝統的なWindows
-	hFile = hFileBegin;															//ファイルポインタのアタマにする
-	ZeroMemory(&InData, sizeof(InDataSize));
-	InData = (LPBYTE)HeapAlloc(GetProcessHeap(), 0, InDataSize);				//領域を確保・とらないとエラーになる。
-	readstat = ReadFile(														//確保した領域に読み込み
-		hFile
-		, InData																//std::vector<BYTE>のアドレスを入れても入らない可愛くない奴
-		, InDataSize
-		, NULL
-		, NULL
-	);
-	CloseHandle(hFile);															//ハンドラクローズ
-	/////////
-	if (readstat)
-	{
-		//出力関数・std::vector<BYTE> -> LPBYTEに変換・関数呼び出しでは多用・関数によっては上手くいかない？ので、HeapAllocする。
-		binStdOut(InData, (unsigned long)InDataSize, "LPBYTE :");
-	}
-	else
-	{
-		printf("LPBYTE ReadFile FAIL\n");
-		return 1;
-	}
+	//クローズ
+	CloseHandle(hFile);															//昔のコンパイラならクローズ忘れはバグの元ですが、無くても問題なし
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//LPBYTE -> std::vector<BYTE> に変換・ポインタからベクタは芋臭い奴
-	/// std::vector<BYTE>形式
-	std::vector<BYTE> InDataBYTE;												//読み込みBuffer
-	for (int i = 0; i < (int)InDataSize; i++)
+	// 書き込み・その1
+	currentDirString = currentDirStringSV;										//文字列連結
+	currentDirString += DirSep;													//文字列連結
+	currentDirString += OutFileNameofstream;									//文字列連結
+	//書き出し・関数で丸っと書き出し
+	std::ofstream ofs(currentDirString, std::ios::binary);
+	ofs.write((const char*)&ifsInDataBYTEConv[0], ifsInDataBYTEConv.size());
+	ofs.close();
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 書き込み・その2
+	currentDirString = currentDirStringSV;										//文字列連結
+	currentDirString += DirSep;													//文字列連結
+	currentDirString += OutFileNamePofstream;									//文字列連結
+	//書き出し・ストリームなので、マンマ書き込んでOK
+	std::basic_ofstream<BYTE> ofsP(currentDirString, std::ios::binary);			//ファイルオープン
+	for (unsigned long i = 0; i < ifsInDataBYTEConv.size(); i++)
 	{
-		InDataBYTE.push_back((BYTE)InData[i]);									//コンパイラで警告が出ます。今更使わないので仕方ありません。
+		ofsP << ifsInDataBYTEConv[i];
 	}
-	//出力関数・std::vector<BYTE> -> LPBYTEに変換・関数呼び出しでは多用・関数によっては上手くいかない？ので、HeapAllocする。
-	LPBYTE lpInDataBYTE = (LPBYTE)&InDataBYTE[0];
-	binStdOut(lpInDataBYTE, (unsigned long)InDataBYTE.size(), "LPBYTE -> BYTE vector :");
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// std::vector<BYTE>に読み込む・イキナリ読み込み・その1
-	std::ifstream file1(pcurrentDirString, std::ios::binary);					//ファイルオープン
-	// ifstreamのイテレータがあるので読んでやる
-	auto ifs1InDataBYTE = std::vector<BYTE>((std::istreambuf_iterator<char>(file1)), std::istreambuf_iterator<char>());
-	//出力関数・std::vector<BYTE> -> LPBYTEに変換・関数呼び出しでは多用・関数によっては上手くいかない？ので、HeapAllocする。
-	LPBYTE lpifs1InDataBYTE = (LPBYTE)&ifs1InDataBYTE[0];
-	binStdOut(lpifs1InDataBYTE, (unsigned long)ifs1InDataBYTE.size(), "BYTE vector ifstream :");
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// std::vector<BYTE>に読み込む・イキナリ読み込み・その2
-	std::basic_ifstream<BYTE> file2(pcurrentDirString, std::ios::binary);		//ファイルオープン
-	// basic_ifstreamのイテレータがあるので読んでやる
-	auto ifs2InDataBYTE = std::vector<BYTE>((std::istreambuf_iterator<BYTE>(file2)), std::istreambuf_iterator<BYTE>());
-	//出力関数・std::vector<BYTE> -> LPBYTEに変換・関数呼び出しでは多用・関数によっては上手くいかない？ので、HeapAllocする。
-	LPBYTE lpifs2InDataBYTE = (LPBYTE)&ifs2InDataBYTE[0];
-	binStdOut(lpifs2InDataBYTE, (unsigned long)ifs2InDataBYTE.size(), "BYTE vector basic_ifstream :");
+	ofsP.close();																//昔のコンパイラならクローズ忘れはバグの元ですが、無くても問題なし
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
