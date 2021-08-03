@@ -160,8 +160,9 @@ void binStdOut(LPBYTE outstring, unsigned long outlength, std::string banner)
 		for (unsigned long j = 0; j < countdiv; j++)
 		{
 			auto s = outstring[datapoint];
-			//16
+			//16進数
 			std::cout << std::setfill('0') << std::setw(2) << std::hex << (unsigned long)s << " ";
+			//10進数
 			//std::cout << std::setfill('0') << std::setw(3) << std::uppercase << std::dec << (unsigned long)outstring[datapoint] << " ";
 			datapoint++;
 			if (outlength <= datapoint) { break; }
