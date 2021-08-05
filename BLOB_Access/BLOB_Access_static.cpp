@@ -112,5 +112,23 @@ int main()
 	std::cout << "WORD Byte Order : Left : " << wleft << " : Right : " << wright << std::endl;						
 
 	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
+	std::cout << "std::wstring -> LPWSTR -> std::wstring -> std::string" << std::endl;
+	std::wstring wstr = L"ABCD1234";								//wstringを用意する
+	LPWSTR lpwstr = &wstr[0];										//アタマのバイトがポインタ
+	std::wstring convwstr = L"";									//変換先
+	if (lpwstr != NULL)												//逆参照とか言われるので・・・
+	{
+		convwstr = lpwstr;
+	}
+	else
+	{
+		convwstr = L"";
+	}
+	//stringに直接変換するとデータが失われる
+	std::string convstr = std::string(convwstr.begin(), convwstr.end());
+	std::wcout << "convwstr :" << convwstr << std::endl;
+	std::cout << "convstr :" << convstr << std::endl;
+	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
+
 
 }
