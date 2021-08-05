@@ -36,6 +36,10 @@ void writeFileData(LPBYTE outstring, unsigned long outlength, std::wstring* File
 int main()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//コンソールの扱いをUTF-8に変更
+	SetConsoleOutputCP(CP_UTF8);
+	setvbuf(stdout, nullptr, _IOFBF, 4096);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	std::wstring InFileName = L"InText.txt";									//テスト入力ファイル名・UNICODE指定		->	適時書き換えを！
 	//std::wstring InFileName = L"cryptbin.dat";								//テスト入力ファイル名・UNICODE指定		->	適時書き換えを！
 	std::wstring cryptProtectData = L"CryptProtectData.bin";					//暗号化バイナリ出力ファイル名・UNICODE指定		->	適時書き換えを！

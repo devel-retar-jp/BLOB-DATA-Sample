@@ -24,6 +24,7 @@
     <ProjectGuid>{ddea9623-8b7a-4a4d-bcb0-50faf57221f2}</ProjectGuid>
     <RootNamespace>TPMBaseServices</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>③TPM_Base_Services</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

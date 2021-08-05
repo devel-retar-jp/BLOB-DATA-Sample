@@ -24,6 +24,7 @@
     <ProjectGuid>{7cb1ec98-d147-4718-bd38-cce4b8111538}</ProjectGuid>
     <RootNamespace>HashFunction</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>⑤HashFunction</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

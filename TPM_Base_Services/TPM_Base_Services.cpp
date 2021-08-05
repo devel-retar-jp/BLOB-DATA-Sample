@@ -29,6 +29,10 @@ void TbsipSubmitCommand_Func_Result(std::vector<BYTE> datavect, TBS_RESULT rv, T
 int main()
 {
 	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
+	//コンソールの扱いをUTF-8に変更
+	SetConsoleOutputCP(CP_UTF8);
+	setvbuf(stdout, nullptr, _IOFBF, 4096);
+	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
 	//TPM 1.2 Device Open
 	//https://docs.microsoft.com/en-us/windows/win32/api/tbs/ns-tbs-tbs_context_params
 	std::cout << "TPM Check 1.2" << std::endl;
@@ -60,7 +64,7 @@ int main()
 	
 	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
 	//Device Info
-	https://docs.microsoft.com/en-us/windows/win32/api/tbs/nf-tbs-tbsi_getdeviceinfo
+	//https://docs.microsoft.com/en-us/windows/win32/api/tbs/nf-tbs-tbsi_getdeviceinfo
 	std::cout << "TPM 2.0 Device Info" << std::endl;
 	TPM_DEVICE_INFO info;
 	info.structVersion = TPM_VERSION_20;												//TPM_VERSION_20に設定しろと書いてあるが？

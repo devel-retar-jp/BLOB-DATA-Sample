@@ -24,6 +24,7 @@
     <ProjectGuid>{9ad5bd07-ac00-4130-b5bd-020e689e4d88}</ProjectGuid>
     <RootNamespace>HashingCNG</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>④HashingCNG</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

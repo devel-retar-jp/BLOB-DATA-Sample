@@ -24,6 +24,7 @@
     <ProjectGuid>{c6103323-c38d-46c7-83ea-4bc548273e1d}</ProjectGuid>
     <RootNamespace>BLOBFILEWrite</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>⑦BLOB_FILE_Write</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

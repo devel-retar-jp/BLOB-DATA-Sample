@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BLOB_FILE_ReadWrite.cpp">
+    <ClCompile Include="BLOB_FILE_Read.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

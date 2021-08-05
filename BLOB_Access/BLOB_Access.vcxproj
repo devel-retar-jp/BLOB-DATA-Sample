@@ -24,7 +24,7 @@
     <ProjectGuid>{93fad30c-36d4-4e6b-a37f-3cb3e636345d}</ProjectGuid>
     <RootNamespace>BLOBAccess</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>BLOB_Access_static</ProjectName>
+    <ProjectName>①BLOB_Access_static</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -24,6 +24,7 @@
     <ProjectGuid>{84fde5fa-af53-4e61-ba56-e793c65fe883}</ProjectGuid>
     <RootNamespace>CryptProtectData</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>⑧CryptProtectData</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

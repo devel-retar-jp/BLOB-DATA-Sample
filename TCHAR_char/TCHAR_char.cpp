@@ -28,6 +28,10 @@ int main()
 {
 	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
 	//コンソールの扱いをUTF-8に変更
+	SetConsoleOutputCP(CP_UTF8);
+	setvbuf(stdout, nullptr, _IOFBF, 4096);
+	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
+	//コンソールの扱いをUTF-8に変更
 	std::cout << "Set Console" << std::endl;
 	setlocale(LC_CTYPE, "C");												//英文しか使わないなら"C"
 	SetConsoleOutputCP(CP_UTF8);											//UTF8出力
