@@ -162,7 +162,7 @@ int main()
 		BCryptExportKey(
 			hKey																		//キーオブジェクト
 			, NULL																		//AES以外はNULL
-			, BCRYPT_PRIVATE_KEY_BLOB													//専用の定数があるが、汎用にしておくとアルゴリズムを変えてもOK、扱いが楽！
+			, BCRYPT_PUBLIC_KEY_BLOB													//専用の定数があるが、汎用にしておくとアルゴリズムを変えてもOK、扱いが楽！
 			, NULL																		//サイズを測るだけなのでNULL
 			, 0																			//サイズを測るだけなので0
 			, &dwPublicDataSize															//サイズを取得
@@ -177,7 +177,7 @@ int main()
 		BCryptExportKey(
 			hKey																		//キーオブジェクト
 			, NULL																		//AES以外はNULL
-			, BCRYPT_PRIVATE_KEY_BLOB													//専用の定数があるが、汎用にしておくとアルゴリズムを変えてもOK、扱いが楽！
+			, BCRYPT_PUBLIC_KEY_BLOB													//専用の定数があるが、汎用にしておくとアルゴリズムを変えてもOK、扱いが楽！
 			, &dwPublicData[0]															//確保したメモリのアドレス
 			, dwPublicDataSize															//取得したサイズ
 			, &cbData																	//サイズが入ってきますが、テンポラリバッファー
@@ -216,7 +216,7 @@ int main()
 		BCryptImportKeyPair(
 			hAlg																		//ハンドラのポインタ
 			, NULL																		//AES以外はNULL
-			, BCRYPT_PRIVATE_KEY_BLOB													//専用の定数があるが、汎用にしておくとアルゴリズムを変えてもOK、扱いが楽！
+			, BCRYPT_PUBLIC_KEY_BLOB													//専用の定数があるが、汎用にしておくとアルゴリズムを変えてもOK、扱いが楽！
 			, &PublicKeyHandle															//キーオブジェクト
 			, &dwPublicData[0]															//キーデータ
 			, (ULONG)dwPublicData.size()												//キーデータサイズ
@@ -434,8 +434,8 @@ int main()
 	//
 	// 公開鍵で暗号データを復号化
 	// 
-	// 公開鍵から復号出来ません
-	// ブロックサイズまではわかります
+	// 公開鍵から復号出来ない確認・ブロックサイズまではわかります
+	// 
 	// 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////

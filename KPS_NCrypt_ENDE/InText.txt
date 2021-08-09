@@ -1,0 +1,50 @@
+bcrypt
+From Wikipedia, the free encyclopedia
+Jump to navigation
+Jump to search
+For the bcrypt file encryption utility, see Blowfish (cipher).
+bcryptGeneral
+Designers	Niels Provos, David Mazieres
+First published	1999
+Derived from	Blowfish (cipher)
+Detail
+Digest sizes	184 bit
+Rounds	variable via cost parameter
+
+bcrypt is a password-hashing function designed by Niels Provos and David Mazieres, based on the Blowfish cipher and presented at USENIX in 1999.[1] Besides incorporating a salt to protect against rainbow table attacks, bcrypt is an adaptive function: over time, the iteration count can be increased to make it slower, so it remains resistant to brute-force search attacks even with increasing computation power.
+
+The bcrypt function is the default password hash algorithm for OpenBSD[2] and was the default for some Linux distributions such as SUSE Linux.[3]
+
+There are implementations of bcrypt for C, C++, C#, Elixir,[4] Go,[5] Java,[6][7] JavaScript,[8] Perl, PHP, Python,[9] Ruby, and other languages. 
+
+Background
+
+Blowfish is notable among block ciphers for its expensive key setup phase. It starts off with subkeys in a standard state, then uses this state to perform a block encryption using part of the key, and uses the result of that encryption (which is more accurate at hashing) to replace some of the subkeys. Then it uses this modified state to encrypt another part of the key, and uses the result to replace more of the subkeys. It proceeds in this fashion, using a progressively modified state to hash the key and replace bits of state, until all subkeys have been set.
+
+Provos and Mazieres took advantage of this, and took it further. They developed a new key setup algorithm for Blowfish, dubbing the resulting cipher "Eksblowfish" ("expensive key schedule Blowfish"). The key setup begins with a modified form of the standard Blowfish key setup, in which both the salt and password are used to set all subkeys. There are then a number of rounds in which the standard Blowfish keying algorithm is applied, using alternatively the salt and the password as the key, each round starting with the subkey state from the previous round. In theory, this is no stronger than the standard Blowfish key schedule, but the number of rekeying rounds is configurable; this process can therefore be made arbitrarily slow, which helps deter brute-force attacks upon the hash or salt. 
+
+Description
+
+A bcrypt hash string is of the form:
+
+$2<a/b/x/y>$[cost]$[22 character salt][31 character hash]
+
+For example:
+
+$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+\__/\/ \____________________/\_____________________________/
+ Alg Cost      Salt                        Hash
+
+Where:
+
+    $2a$: The hash algorithm identifier (bcrypt)
+    10: Cost factor (210 ==> 1,024 rounds)
+    N9qo8uLOickgx2ZMRZoMye: 16-byte (128-bit) salt, Radix-64 encoded as 22 characters
+    IjZAgcfl7p92ldGxad68LJZdL17lhWy: 24-byte (192-bit) hash, Radix-64 encoded as 31 characters
+
+The prefix "$2a$" or "$2b$" (or in case the PHP package crypt_blowfish in particular: "$2x$" and "$2y$"[10]) in a hash string in a shadow password file indicates that hash string is a bcrypt hash in modular crypt format.[11] The rest of the hash string includes the cost parameter, a 128-bit salt, and 192 bits of the resulting hash value.[12] The Radix-64 encoding uses the unix/crypt alphabet, and is not 'standard' Base-64.[13][14] The cost parameter specifies a key expansion iteration count as a power of two, which is an input to the crypt algorithm.
+
+For example, the shadow password record $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy specifies a cost parameter of 10, indicating 210 key expansion rounds. The salt is N9qo8uLOickgx2ZMRZoMye and the resulting hash is IjZAgcfl7p92ldGxad68LJZdL17lhWy. Per standard practice, the user's password itself is not stored.
+
+
+In most programming languages it's possible to verify if a text represents an encoded bcrypt password using a regular expression. This feature can be used to validate if a password is encoded correctly. Below, is an example in Python of a regular expression that works on most programming languages:
