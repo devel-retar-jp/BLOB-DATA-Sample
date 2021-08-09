@@ -77,6 +77,23 @@ C++なんて楽勝の方は、④からがTPM2.0の機能検証です。<br>
   ソフトウェアライセンスなどに向いています。<br>
   仕組みがわかるようにプログラムを書いてみました。<p>
 
+ * ⑬CNG TPM2.0・キー生成<p>
+  Folder : NCrypt_TPM20_KeyGen<br>
+  CNG Key Storage Providersの半導体保存型がTPM2.0です。<br>
+  ソフトウェアライセンスなどに向いています。<br>
+  仕組みがわかるようにプログラムを書いてみました。<p>
+
+ * ⑭CNG TPM2.0・暗号化<p>
+  Folder : NCrypt_TPM20_Encrypt<br>
+  CNG Key Storage Providersの半導体保存型がTPM2.0です。<br>
+  ソフトウェアライセンスなどに向いています。<br>
+  仕組みがわかるようにプログラムを書いてみました。<p>
+
+ * ⑮CNG TPM2.0・復号化<p>
+  Folder : NCrypt_TPM20_Decrypt<br>
+  CNG Key Storage Providersの半導体保存型がTPM2.0です。<br>
+  ソフトウェアライセンスなどに向いています。<br>
+  仕組みがわかるようにプログラムを書いてみました。<p>
 
 <H2>開発環境</H2>
 

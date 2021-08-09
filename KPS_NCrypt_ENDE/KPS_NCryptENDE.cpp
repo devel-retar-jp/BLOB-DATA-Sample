@@ -110,7 +110,7 @@ int main()
 				, (ULONG)publicKeyDataBYTE.size()											//キーデータサイズ
 				, NULL																		//フラグ
 			)
-			, L"BCryptImportKeyPair : Public Key"
+			, L"NCryptImportKey : Public Key"
 		);
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +148,7 @@ int main()
 				, &cbData																	//暗号化データBLOBサイズ取得
 				, BCRYPT_BLOCK_PADDING														//フラグ・本当はNULLで良いと思います
 			)
-			, L"BCryptEncrypt : Public Key : Execute"
+			, L"NCryptEncrypt : Public Key : Execute"
 		);
 		//バイナリファイル書き出し・最後の引数は（16/10/0）。カギとしてバイナリ保存するときは「０」書き出し。Debugしやすいようになっています。
 		//今回は再読み込みなので「０」
