@@ -16,12 +16,27 @@
 #include <windows.h>												//これを入れるだけでWindows
 #include <iostream>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int main()
+int main(int argc, char* argv[])
 {
 	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
 	//コンソールの扱いをUTF-8に変更
 	SetConsoleOutputCP(CP_UTF8);
 	setvbuf(stdout, nullptr, _IOFBF, 4096);
+	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
+	//main引数
+	//Windowsにはwmainと言うのもある。こちらはUNICODE用。
+	//Windowsでも通常の版は普通です。
+	std::cout << "argc    : " << argc << std::endl;
+	std::cout << "argv[0] : " << *argv[0] << std::endl;
+	std::cout << "argv    : " << *argv << std::endl;
+	for (int count = 0; count < argc; count++)
+	{
+		std::cout << "argv[" << count << "] : " << *argv[count] << std::endl;
+		std::string strmain = argv[count];
+		std::cout << "strmain : " << strmain << std::endl;
+		const char* ccharconvmain = strmain.c_str();
+		std::cout << "ccharconvmain : " << ccharconvmain << std::endl;
+	}
 	std::cout << "////////////////////////////////////////////////////////////////////////////////////////////////////////" << std::endl;
 	//伝統的なchar
 	const char strchar[] = "ABCDEF";								//データ設定
